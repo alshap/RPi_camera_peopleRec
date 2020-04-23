@@ -8,6 +8,9 @@ Will be shown how project was realized and also explanations and advices for rea
 ## Accessing the camera using OpenCV
 
 To access the Raspberry Pi camera we use OpenCV library. 
+
+Check camera.py
+
 Firstly we need to install Python library for camera and OpenCV library. 
 ```
 pip3 install picamera
@@ -72,7 +75,7 @@ sudo pip3 install opencv-contrib-python==4.1.0.25
 
 To add our data in Postgree sql we need to create a table in database and some code which will communicate with database.
 
-Database dump can be found in database_dump.txt
+Database dump can be found in database_dump.sql
 
 In code we need following:
 
