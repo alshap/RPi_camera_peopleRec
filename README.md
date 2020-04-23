@@ -120,6 +120,23 @@ cursor.close()
 connection.close()
 ```
 
+## Faces recognition
+
+To recognize faces we use build-in OpenCV functional. Example can be found in **face_recognition.py**
+
+
+Take attention on these lines
+
+```
+face_cascade_path = '/home/pi/Desktop/project_peopleRecognition/haarcascade_frontalface_default.xml'
+face_cascade = cv2.CascadeClassifier(face_cascade_path)
+```
+
+**haarcascade_frontalface_default.xml** is part of opencv library using for faces detection. We use absolute path to the file because Python did not find this file and **detectMultiScale** function gave an error.
+
+This xml schema can be found in project files.
+
+
 ## Next steps
 
 **If all examples works fine, go forward to the people recognition project folder**
