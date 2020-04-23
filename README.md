@@ -69,7 +69,6 @@ Install the certain open cv version 4.1.0.25
 ```
 sudo pip3 install opencv-contrib-python==4.1.0.25
 ```
-## People recognition
 
 ## Postgree
 
@@ -120,3 +119,7 @@ Destroy the connection
 cursor.close()
 connection.close()
 ```
+
+## Next steps
+
+**If all examples works fine, go forward to the people recognition project folder**
