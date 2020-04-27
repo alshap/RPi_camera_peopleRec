@@ -124,6 +124,43 @@ connection.close()
 
 To recognize faces we use build-in OpenCV functional. Example can be found in **face_recognition.py**
 
+Programm can recognizes multiple faces at time.
+
+Some explanation to the code.
+
+Start Raspberry camera
+```
+cap = cv2.VideoCapture(0)
+```
+
+Get current frame
+```
+_, frame = cap.read()
+```
+
+Change frame color to gray(provides better recognition)
+```
+gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+```
+
+
+Faces recognition
+```
+faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+```
+
+
+Draw rectangles on faces
+```
+for rect in faces:
+        (x, y, w, h) = rect
+        frame = cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+```
+
+Show frame
+```
+cv2.imshow("Frame", frame)
+```
 
 Take attention on these lines
 
