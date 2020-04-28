@@ -61,10 +61,6 @@ def postgre_insert(query, record):
             connection.close()
             print("Connection closed")
 
-    
-def nothing(x):
-    pass
-
-
+            
 if __name__ == '__main__':
   main()
