@@ -1,56 +1,58 @@
-from picamera.array import PiRGBArray
-from picamera import PiCamera
 import time
 import cv2
 import psycopg2
 from config import config
+import numpy as np
+import datetime
 
+cap = cv2.VideoCapture(0)
 
-camera = PiCamera()
-camera.resolution = (640, 480)
-camera.framerate = 32
 
 postgres_insert_query = """ INSERT INTO public.people_record (amount, datetime) VALUES (%s,%s)"""
-record_to_insert = (2, "21/04/2020 22:55")
 
-capture = PiRGBArray(camera, size=(640, 480))
+face_cascade_path = '/home/pi/Desktop/project_peopleRecognition/haarcascade_frontalface_default.xml'
+face_cascade = cv2.CascadeClassifier(face_cascade_path)
+
 time.sleep(0.1)
 
 def main():
-    for frame in camera.capture_continuous(capture, format="bgr", use_video_port=True):
-        cv2.namedWindow("Frame")
-        cv2.createTrackbar("Neighbours", "Frame", 5, 20, nothing)
+    while True:
+        _, frame = cap.read()
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-        image = frame.array
-        face_cascade = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
-        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        neighbours = cv2.getTrackbarPos("Neighbours", "Frame")
-        faces = face_cascade.detectMultiScale(gray, 1.3, neighbours)
+        faces = face_cascade.detectMultiScale(gray, 1.3, 5)
         for rect in faces:
+            print(len(faces))
             (x, y, w, h) = rect
-            frame = cv2.rectangle(frame, (x,y), (x + w, y + h), (0, 255, 0), 2)
-        
-        
+            frame = cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+            
+            record_to_insert = [len(faces), datetime.datetime.now()]
+            postgre_insert(postgres_insert_query, record_to_insert)
+            time.sleep(2)
+
+
         cv2.imshow("Frame", frame)
-        cv2.imshow("Window", image)
-        key = cv2.waitKey(1) & 0xFF
-        capture.truncate(0)
-        if key == ord("q"):
+
+        key = cv2.waitKey(1)
+    #   key Esc
+        if key == 27: 
             break
-    cv2.destroyAllWindows()
+
+    cap.release()
+    cv2.destroyAllWindows()  
     
       
-def postgre_insert():
+def postgre_insert(query, record):
     connection = False
     try:
         params = config()
         connection = psycopg2.connect(**params)
 
         cursor = connection.cursor()
-        cursor.execute(postgres_insert_query, record_to_insert)
+        cursor.execute(query, record)
         connection.commit()
         print("Data sent successfully")
-
+        print("Found people: " + str(record[0]) + ". Time: " + str(record[1]))
     except (Exception, psycopg2.Error) as error:
         print ("Connection fails", error)
     finally:
