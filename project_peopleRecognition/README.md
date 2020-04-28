@@ -14,3 +14,22 @@ connection = psycopg2.connect(**params)
 
 ## How code works
 
+1. Program gets frame from camera
+2. Frame color changes to gray
+3. Find faces using gray frame and face_cascade
+4. Draw rectangles on faces
+5. Send data to Postgre
+6. Prints data in output
+
+
+<details><summary>**Camera**</summary>
+  
+![Screenshot](https://github.com/alshap/RPi_camera_peopleRec/blob/master/images/screen1.png)
+
+</details>
+
+<details><summary>**Database**</summary>
+  
+![Screenshot](https://github.com/alshap/RPi_camera_peopleRec/blob/master/images/screen2.png)
+
+</details>
