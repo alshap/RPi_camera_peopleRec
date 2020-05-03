@@ -171,6 +171,8 @@ face_cascade = cv2.CascadeClassifier(face_cascade_path)
 
 **haarcascade_frontalface_default.xml** is part of opencv library using for faces detection. We use absolute path to the file because Python did not find this file and **detectMultiScale** function gave an error.
 
+If your opencv library does not have **haarcascade_frontalface_default.xml** it should be downloaded and then in **face_cascade_path** variable should be absolute path to the file.
+
 This xml schema can be found in project files.
 
 
